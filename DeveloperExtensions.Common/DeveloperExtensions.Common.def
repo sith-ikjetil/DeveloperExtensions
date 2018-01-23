@@ -1,0 +1,7 @@
+; DeveloperExtensions.Common.dll
+
+LIBRARY      "DeveloperExtensions.Common.dll"
+
+EXPORTS
+	DllMain				   @1 PRIVATE
+	DevExtShowAboutDlg     @2 PRIVATE	

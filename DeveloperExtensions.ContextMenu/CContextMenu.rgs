@@ -1,0 +1,62 @@
+HKCR
+{
+	* {
+	 shellex {
+	  ContextMenuHandlers {
+	   ForceRemove DeveloperExtensions = s '{14C710E4-B0EE-40BE-8D21-77A2122B524E}' {	    
+	   }
+	  }
+	 }
+	}
+	
+	
+	Directory {
+	 shellex {
+	  ContextMenuHandlers {
+	   ForceRemove DeveloperExtensions = s '{14C710E4-B0EE-40BE-8D21-77A2122B524E}' {	    
+	   }
+	  }
+	 }
+	}
+
+	DeveloperExtensions.ContextMenu.1 = s 'ContextMenu Class'
+	{
+		CLSID = s '{14C710E4-B0EE-40BE-8D21-77A2122B524E}'
+	}
+	DeveloperExtensions.ContextMenu = s 'ContextMenu Class'
+	{		
+		CurVer = s 'DeveloperExtensions.ContextMenu.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {14C710E4-B0EE-40BE-8D21-77A2122B524E} = s 'ContextMenu Class'
+		{
+			ProgID = s 'DeveloperExtensions.ContextMenu.1'
+			VersionIndependentProgID = s 'DeveloperExtensions.ContextMenu'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{2F1D4BE8-125E-4584-8C06-2B126F0950D4}'
+			Version = s '1.0'
+		}
+	}
+}
+
+HKLM
+{
+	Software {
+     Microsoft {
+      Windows {
+       CurrentVersion {
+        'Shell Extensions' {
+         Approved {
+          val '{14C710E4-B0EE-40BE-8D21-77A2122B524E}' = s 'Developer Extensions' 
+		 }
+	    }
+	   }
+	  }
+	 }
+	}
+}

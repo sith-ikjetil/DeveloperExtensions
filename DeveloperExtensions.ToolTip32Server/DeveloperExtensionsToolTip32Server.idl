@@ -1,0 +1,36 @@
+// DeveloperExtensionsToolTip32Server.idl : IDL source for DeveloperExtensions.ToolTip32Server
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DeveloperExtensionsToolTip32Server.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(EB1A4B96-BC93-4B52-B7F3-91A491EF8DFF),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IDEToolTip32Server : IDispatch
+{
+	HRESULT GetToolTip([in] BSTR filename, [out, retval] BSTR* tooltip);
+};
+[
+	uuid(4A128802-97CC-4021-A89E-74BFA0C4F5E5),
+	version(1.0),
+]
+library DeveloperExtensionsToolTip32ServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(E72D8C59-96E6-45D3-88DA-D251F2E81EF0)		
+	]
+	coclass ToolTip32Server
+	{
+		[default] interface IDEToolTip32Server;
+	};
+};
+

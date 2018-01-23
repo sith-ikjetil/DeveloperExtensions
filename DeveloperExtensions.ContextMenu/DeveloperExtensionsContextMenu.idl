@@ -1,0 +1,35 @@
+// DeveloperExtensionsContextMenu.idl : IDL source for DeveloperExtensions.ContextMenu
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DeveloperExtensionsContextMenu.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(24734721-01EB-4E52-9E67-0767B811C8BC),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IDEContextMenu : IDispatch
+{
+};
+[
+	uuid(2F1D4BE8-125E-4584-8C06-2B126F0950D4),
+	version(1.0),
+]
+library DeveloperExtensionsContextMenuLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(14C710E4-B0EE-40BE-8D21-77A2122B524E)		
+	]
+	coclass ContextMenu
+	{
+		[default] interface IDEContextMenu;
+	};
+};
+

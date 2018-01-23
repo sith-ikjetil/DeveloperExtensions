@@ -1,0 +1,36 @@
+// DeveloperExtensionsToolTip64Server.idl : IDL source for DeveloperExtensions.ToolTip64Server
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DeveloperExtensionsToolTip64Server.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(A5DBDB92-626D-464F-9F94-25620C4B491C),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IDEToolTip64Server : IDispatch
+{
+	HRESULT GetToolTip([in] BSTR filename, [out, retval] BSTR* tooltip);
+};
+[
+	uuid(4E612D72-629C-4543-9F92-BFEFFDBC06AB),
+	version(1.0),
+]
+library DeveloperExtensionsToolTip64ServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(27DD7C3D-1BAC-42DE-AE0F-C93F61792E84)		
+	]
+	coclass ToolTip64Server
+	{
+		[default] interface IDEToolTip64Server;
+	};
+};
+

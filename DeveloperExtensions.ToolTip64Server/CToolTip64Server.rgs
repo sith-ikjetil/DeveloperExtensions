@@ -1,0 +1,26 @@
+HKCR
+{
+	DeveloperExtensions.ToolTip64Server.1 = s 'ToolTip64Server Class'
+	{
+		CLSID = s '{27DD7C3D-1BAC-42DE-AE0F-C93F61792E84}'
+	}
+	DeveloperExtensions.ToolTip64Server = s 'ToolTip64Server Class'
+	{		
+		CurVer = s 'DeveloperExtensions.ToolTip64Server.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {27DD7C3D-1BAC-42DE-AE0F-C93F61792E84} = s 'ToolTip64Server Class'
+		{
+			ProgID = s 'DeveloperExtensions.ToolTip64Server.1'
+			VersionIndependentProgID = s 'DeveloperExtensions.ToolTip64Server'
+			ForceRemove Programmable
+			LocalServer32 = s '%MODULE%'
+			{
+				val ServerExecutable = s '%MODULE_RAW%'
+			}
+			TypeLib = s '{4E612D72-629C-4543-9F92-BFEFFDBC06AB}'
+			Version = s '1.0'
+		}
+	}
+}

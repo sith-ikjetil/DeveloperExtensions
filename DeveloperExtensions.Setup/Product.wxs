@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:pca="http://schemas.microsoft.com/wix/MsmqExtension" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:utl="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product Id="*"  UpgradeCode="18e3e0a9-d2eb-468c-b9c5-8e2e970f69e1" Version="2.5.0.0" Language="1033" Name="Developer Extensions" Manufacturer="IT Software">
+    <Package InstallerVersion="300"  Compressed="yes" InstallScope="perMachine" Platform="x64" />
+    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of [ProductName] is already installed." AllowSameVersionUpgrades="yes"/>
+
+    <Icon Id="AppIcon.ico" SourceFile="AppIcon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+
+    <WixVariable Id="WixUIBannerBmp" Value="Banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="BannerFront.bmp"/>    
+
+    <Binary Id="CustomActionBinaryID" SourceFile="$(sys.CURRENTDIR)..\DeveloperExtensions.Setup.CustomAction\bin\Release\DeveloperExtensions.Setup.CustomAction.CA.dll" />
+    <CustomAction Id="RegisterCOMServers" Impersonate="no" BinaryKey="CustomActionBinaryID" DllEntry="RegisterCOMServers" Execute="deferred" />
+    <CustomAction Id="UnregisterCOMServers" Impersonate="no" BinaryKey="CustomActionBinaryID" DllEntry="UnregisterCOMServers" Execute="deferred" />
+    <CustomAction Id="RegisterFileAssociations" Impersonate="no" BinaryKey="CustomActionBinaryID" DllEntry="RegisterFileAssociations" Execute="deferred" />
+    <CustomAction Id="UnregisterFileAssociations" Impersonate="no" BinaryKey="CustomActionBinaryID" DllEntry="UnregisterFileAssociations" Execute="deferred" />
+
+    <Media Id="1" Cabinet="cc.cab" EmbedCab="yes" />
+
+    <InstallExecuteSequence>      
+      <Custom Action="RegisterCOMServers" Before="InstallFinalize">NOT Installed AND NOT PATCH</Custom>      
+      <Custom Action="UnregisterCOMServers" After="InstallInitialize">(Installed AND NOT UPGRADINGPRODUCTCODE) OR (Installed AND REMOVE="ALL") OR (REMOVE="ALL")</Custom>
+      <Custom Action="RegisterFileAssociations" Before="InstallFinalize">NOT Installed AND NOT PATCH</Custom>
+      <Custom Action="UnregisterFileAssociations" After="InstallInitialize">(Installed AND NOT UPGRADINGPRODUCTCODE) OR (Installed AND REMOVE="ALL") OR (REMOVE="ALL")</Custom>
+    </InstallExecuteSequence>
+
+    <!-- Step 1: Define the directory structure -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder" Name="Desktop" />
+      <Directory Id="StartupFolder" Name="Startup" />
+      <Directory Id="ProgramFiles64Folder" Name="PFDir">
+        <Directory Id="COMPANYDIRECTORY64" Name="IT Software">
+          <Directory Id="APPLICATION64ROOTDIRECTORY"  Name="Developer Extensions" ComponentGuidGenerationSeed="1079dc02-33e4-4b21-9b31-d72065a9e7e7">
+
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramFilesFolder" Name="PFDir">
+        <Directory Id="COMPANYDIRECTORY" Name="IT Software">
+          <Directory Id="APPLICATIONROOTDIRECTORY"  Name="Developer Extensions" ComponentGuidGenerationSeed="b8a0d8e5-27b8-430f-9c4c-fa3d160514c8">
+
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder" Name="PMFolder">
+        <Directory Id="ItSoftwareDeveloperExtensionsFolder" Name="IT Software">
+          <Component Id="ItSoftwareDeveloperExtensionsFolderComponent" Guid="3d557cb3-d09a-490a-a68c-357354ab7a06">
+            <RemoveFolder Id='KKSDeveloperExtensionsFolder' On='uninstall'/>
+            <RegistryValue Root='HKCU' Key='SOFTWARE\IT Software\Developer Extensions'
+                        Type='string' Value='Hello World'
+                        KeyPath='yes' />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <!-- Step 2: Add files to your installer package -->
+    <DirectoryRef Id="APPLICATION64ROOTDIRECTORY">
+      <Component Id="R_KKS64.DeveloperExtension" Guid="4a009a3b-ec0a-4367-8314-21c6e13e9f08" Win64="yes">
+        <File Id="R_DeveloperExtensions.TaskBarStatusArea.exe"  Name="DeveloperExtensions.TaskBarStatusArea.exe"  Vital="yes" Source="$(sys.CURRENTDIR)..\x64\Release\DeveloperExtensions.TaskBarStatusArea.exe" KeyPath="yes" Checksum="no" ProcessorArchitecture="x64" />                                
+        <File Id="R_DeveloperExtensions.ToolTip64Server.exe"  Name="DeveloperExtensions.ToolTip64Server.exe"  Vital="yes" Source="$(sys.CURRENTDIR)..\x64\Release\DeveloperExtensions.ToolTip64Server.exe" KeyPath="no" Checksum="no" ProcessorArchitecture="x64" />
+        <File Id="R_DeveloperExtensions.Common.dll"  Name="DeveloperExtensions.Common.dll"  Vital="yes" Source="$(sys.CURRENTDIR)..\x64\Release\DeveloperExtensions.Common.dll" KeyPath="no" Checksum="no" ProcessorArchitecture="x64" />
+        <File Id="R_DeveloperExtensions.ContextMenu.dll"  Name="DeveloperExtensions.ContextMenu.dll"  Vital="yes" Source="$(sys.CURRENTDIR)..\x64\Release\DeveloperExtensions.ContextMenu.dll" KeyPath="no" Checksum="no" ProcessorArchitecture="x64" />
+        <File Id="R_DeveloperExtensions.PropertySheet.dll"  Name="DeveloperExtensions.PropertySheet.dll"  Vital="yes" Source="$(sys.CURRENTDIR)..\x64\Release\DeveloperExtensions.PropertySheet.dll" KeyPath="no" Checksum="no" ProcessorArchitecture="x64" />
+        <File Id="R_DeveloperExtensions.ToolTip.dll"  Name="DeveloperExtensions.ToolTip.dll"  Vital="yes" Source="$(sys.CURRENTDIR)..\x64\Release\DeveloperExtensions.ToolTip.dll" KeyPath="no" Checksum="no" ProcessorArchitecture="x64" />
+        <File Id="R_DeveloperExtensions.EncDec.exe"  Name="DeveloperExtensions.EncDec.exe"  Vital="yes" Source="$(sys.CURRENTDIR)..\x64\Release\DeveloperExtensions.EncDec.exe" KeyPath="no" Checksum="no" ProcessorArchitecture="x64" />
+      </Component>
+      <Component Id="ItSoftware.DeveloperExtensions.ShortCut" Win64="yes">
+        <Shortcut Id="ItSoftware.AppShortcut"
+                     Directory="ItSoftwareDeveloperExtensionsFolder"
+                     Name="Developer Extensions TBSA"
+                     Target="[APPLICATION64ROOTDIRECTORY]DeveloperExtensions.TaskBarStatusArea.exe"
+                     WorkingDirectory="APPLICATION64ROOTDIRECTORY"
+                     Description="Developer Extensions Task Bar Status Area Application" />
+        <Shortcut Id="ItSoftware.AppShortcutDesktop"
+                     Directory="DesktopFolder"
+                     Name="Developer Extensions TBSA"
+                     Target="[APPLICATION64ROOTDIRECTORY]DeveloperExtensions.TaskBarStatusArea.exe"
+                     WorkingDirectory="APPLICATION64ROOTDIRECTORY"
+                     Description="Developer Extensions Task Bar Status Area Application" />
+        <Shortcut Id="ItSoftware.AppShortcutStartupFolder"
+                     Directory="StartupFolder"
+                     Name="Developer Extensions TBSA"
+                     Target="[APPLICATION64ROOTDIRECTORY]DeveloperExtensions.TaskBarStatusArea.exe"
+                     WorkingDirectory="APPLICATION64ROOTDIRECTORY"
+                     Description="Developer Extensions Task Bar Status Area Application" />
+        <RegistryValue Root="HKCU" Key="SOFTWARE\IT Software\Developer Extensions" Name="installed" Type="integer" Value="1"/>
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id="R_KKS.DeveloperExtension" Guid="754b9800-f5aa-42c2-8f80-f18a2861ef46" Win64="no">
+        <File Id="R_DeveloperExtensions.ToolTip32Server.exe"  Name="DeveloperExtensions.ToolTip32Server.exe"  Vital="yes" Source="$(sys.CURRENTDIR)..\Release\DeveloperExtensions.ToolTip32Server.exe" KeyPath="yes" Checksum="no" ProcessorArchitecture="x86" />
+      </Component>
+    </DirectoryRef>
+
+
+    <!-- Step 3: Tell WiX to install the files -->
+    <Feature Id="MainFeature" Title="Conductor" ConfigurableDirectory="APPLICATIONROOTDIRECTORY" Description="Conductor Files" TypicalDefault="install" InstallDefault="local" Level="1">
+      <ComponentRef Id="ItSoftwareDeveloperExtensionsFolderComponent"/>
+      <ComponentRef Id="R_KKS64.DeveloperExtension" />
+      <ComponentRef Id="R_KKS.DeveloperExtension" />
+      <ComponentRef Id="ItSoftware.DeveloperExtensions.ShortCut"/>
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR"/>
+
+    <Property Id="VSDSupportedRuntimes" Value="4.0.30319" />
+
+    <UIRef Id="WixUI_Minimal"/>
+    <!-- Mondo -->
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+  </Product>
+</Wix>

@@ -1,0 +1,55 @@
+HKCR
+{
+    .dll {
+		shellex {
+			'{00021500-0000-0000-C000-000000000046}' = s '{7C01623B-CEE9-4CCE-BE51-9E813D66CAF6}'	  
+		}	  	  
+	 }
+
+	.tlb {
+		shellex {
+			'{00021500-0000-0000-C000-000000000046}' = s '{7C01623B-CEE9-4CCE-BE51-9E813D66CAF6}'	  
+		}	  	  
+	}
+
+	DeveloperExtensions.ToolTip.1 = s 'ToolTip Class'
+	{
+		CLSID = s '{7C01623B-CEE9-4CCE-BE51-9E813D66CAF6}'
+	}
+	DeveloperExtensions.ToolTip = s 'ToolTip Class'
+	{		
+		CurVer = s 'DeveloperExtensions.ToolTip.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {7C01623B-CEE9-4CCE-BE51-9E813D66CAF6} = s 'ToolTip Class'
+		{
+			ProgID = s 'DeveloperExtensions.ToolTip.1'
+			VersionIndependentProgID = s 'DeveloperExtensions.ToolTip'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{D837124D-01D9-4F3D-A2D9-B1E0ADB93E6A}'
+			Version = s '1.0'
+		}
+	}
+}
+
+HKLM
+{
+	Software {
+		Microsoft {
+			Windows {
+				CurrentVersion {
+					'Shell Extensions' {
+						Approved {
+							val '{7C01623B-CEE9-4CCE-BE51-9E813D66CAF6}' = s 'Developer Extensions - ToolTip' 
+						}
+					}
+				}
+			}
+		}
+	}
+}

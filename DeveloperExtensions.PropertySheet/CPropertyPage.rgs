@@ -1,0 +1,54 @@
+HKCR
+{
+
+	NoRemove dllfile {
+	 NoRemove shellex {
+	  NoRemove PropertySheetHandlers {
+		ForceRemove '{6B00D53D-B861-4B78-8593-7BD37C841774}' = s '' {	    
+	   }
+	  }
+	 }
+	}
+
+	NoRemove .tlb = s 'tlbfile'
+	NoRemove tlbfile {
+	 NoRemove shellex {
+	  NoRemove PropertySheetHandlers {
+		ForceRemove '{6B00D53D-B861-4B78-8593-7BD37C841774}' = s '' {	    
+	   }
+	  }
+	 }
+	}
+	
+
+
+	DeveloperExtensions.PropertyPage.1 = s 'PropertyPage Class'
+	{
+		CLSID = s '{6B00D53D-B861-4B78-8593-7BD37C841774}'
+		shellex {
+			PropertySheetHandlers {
+				DeveloperExtensions = s '{6B00D53D-B861-4B78-8593-7BD37C841774}' 
+			}
+		}
+	}
+	DeveloperExtensions.PropertyPage = s 'PropertyPage Class'
+	{		
+		CurVer = s 'DeveloperExtensions.PropertyPage.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {6B00D53D-B861-4B78-8593-7BD37C841774} = s 'PropertyPage Class'
+		{
+			ProgID = s 'DeveloperExtensions.PropertyPage.1'
+			VersionIndependentProgID = s 'DeveloperExtensions.PropertyPage'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{0975B16D-D742-486B-9B35-FBA9BCA7D953}'
+			Version = s '1.0'
+		}
+	}
+}
+

@@ -1,0 +1,35 @@
+// DeveloperExtensionsToolTip.idl : IDL source for DeveloperExtensions.ToolTip
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DeveloperExtensionsToolTip.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(0094BB0F-F572-46CD-93BF-EBE9BD2B61C9),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IDEToolTip : IDispatch
+{
+};
+[
+	uuid(D837124D-01D9-4F3D-A2D9-B1E0ADB93E6A),
+	version(1.0),
+]
+library DeveloperExtensionsToolTipLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(7C01623B-CEE9-4CCE-BE51-9E813D66CAF6)		
+	]
+	coclass ToolTip
+	{
+		[default] interface IDEToolTip;
+	};
+};
+

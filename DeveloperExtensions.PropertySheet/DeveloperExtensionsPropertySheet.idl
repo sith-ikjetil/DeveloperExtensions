@@ -1,0 +1,34 @@
+// DeveloperExtensionsPropertySheet.idl : IDL source for DeveloperExtensions.PropertySheet
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (DeveloperExtensionsPropertySheet.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(68699662-5BA8-4095-8DD0-1237260A4C0D),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IDEPropertyPage : IDispatch{
+};
+[
+	uuid(0975B16D-D742-486B-9B35-FBA9BCA7D953),
+	version(1.0),
+]
+library DeveloperExtensionsPropertySheetLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(6B00D53D-B861-4B78-8593-7BD37C841774)		
+	]
+	coclass PropertyPage
+	{
+		[default] interface IDEPropertyPage;
+	};
+};
+
