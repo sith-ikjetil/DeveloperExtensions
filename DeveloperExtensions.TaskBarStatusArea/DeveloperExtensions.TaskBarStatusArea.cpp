@@ -54,7 +54,7 @@ INT_PTR CALLBACK ShutdownAllApplicationsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 VOID DoShutdownAllApplications(PVOID pvoid);	// Thread function.
 bool StopIIS(PROCESS_INFORMATION* pi);
 bool StartIIS(PROCESS_INFORMATION* pi);
-bool ResetIIS();
+//bool ResetIIS();
 VOID DoRestartIIS(PVOID pvoid);
 bool RefreshAllConfiguredComponents();
 void AddStatusAreaIcon();
@@ -618,6 +618,7 @@ VOID DoRestartIIS(PVOID pvoid)
 	PROCESS_INFORMATION pi = { 0 };
 	if (StopIIS(&pi)) {
 		::WaitForSingleObject(pi.hProcess, INFINITE);
+		::Sleep(1000);
 		PROCESS_INFORMATION pi2 = { 0 };
 		if (!StartIIS(&pi2)) {
 			MessageBox(GetActiveWindow(), L"Failed to start IIS. Failed to execute \"iisreset /start\".", L"Error", MB_OK | MB_ICONERROR);
@@ -639,7 +640,10 @@ bool StopIIS(PROCESS_INFORMATION* pi)
 		execInfo.lpFile = L"iisreset";
 		execInfo.lpParameters = L"/stop";
 		execInfo.nShow = SW_SHOWNORMAL;
-		return (::ShellExecuteExW(&execInfo));
+		execInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+		bool bResult = ::ShellExecuteExW(&execInfo);
+		pi->hProcess = execInfo.hProcess;
+		return bResult;
 	}
 	else {
 		wchar_t wcsCommand[] = L"iisreset /stop";//L"net stop iisadmin /y";		
@@ -647,7 +651,7 @@ bool StopIIS(PROCESS_INFORMATION* pi)
 		si.cb = sizeof(STARTUPINFO);
 		si.lpReserved = NULL;
 		si.lpTitle = L"Stop IIS";
-
+		
 		BOOL b = CreateProcess(NULL, wcsCommand, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, pi);
 		if (b == FALSE) {
 			return false;
@@ -656,15 +660,16 @@ bool StopIIS(PROCESS_INFORMATION* pi)
 	return true;
 }
 
-bool ResetIIS()
-{
-	SHELLEXECUTEINFOW execInfo = { 0 };
-	execInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
-	execInfo.lpVerb = L"runas";
-	execInfo.lpFile = L"iisreset";
-	execInfo.nShow = SW_SHOWNORMAL;
-	return (::ShellExecuteExW(&execInfo));
-}
+//bool ResetIIS()
+//{
+//	SHELLEXECUTEINFOW execInfo = { 0 };
+//	execInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
+//	execInfo.lpVerb = L"runas";
+//	execInfo.lpFile = L"iisreset";
+//	execInfo.nShow = SW_SHOWNORMAL;
+//	execInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+//	return (::ShellExecuteExW(&execInfo));
+//}
 
 bool StartIIS(PROCESS_INFORMATION* pi)
 {
@@ -675,7 +680,10 @@ bool StartIIS(PROCESS_INFORMATION* pi)
 		execInfo.lpFile = L"iisreset";
 		execInfo.lpParameters = L"/start";
 		execInfo.nShow = SW_SHOWNORMAL;
-		return (::ShellExecuteExW(&execInfo));
+		execInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+		bool bResult = ::ShellExecuteExW(&execInfo);
+		pi->hProcess = execInfo.hProcess;
+		return bResult;
 	}
 	else {
 		wchar_t wcsCommand[] = L"iisreset /start";//L"net start w3svc";						
