@@ -12,6 +12,7 @@
 #include <process.h>
 #include <stdlib.h>
 #include <ShellScalingApi.h>
+#include <VersionHelpers.h>
 
 //
 // using namespace
@@ -44,15 +45,15 @@ HMODULE			g_hModuleDll(NULL);	// Handle to devext.dll
 
 									// Function prototypes
 LRESULT CALLBACK StatusAreaProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam); // Window function.
-void BuildCOMPlusServerApplicationsMenu(HMENU &hSubMenu); // Util function to put COM+ server applications into the menu...
+void BuildCOMPlusServerApplicationsMenu(HMENU& hSubMenu); // Util function to put COM+ server applications into the menu...
 bool GetAllCoPlusServerApplications(); // Retrieve COM+ Server applications and add them to the g_vCoApplications vector.
-bool ShutDownApplication(wchar_t *wcsApplicationName);
+bool ShutDownApplication(wchar_t* wcsApplicationName);
 INT_PTR CALLBACK ShutdownApplicationProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 VOID DoShutdownApplication(PVOID pvoid);	// Thread function.
 INT_PTR CALLBACK ShutdownAllApplicationsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 VOID DoShutdownAllApplications(PVOID pvoid);	// Thread function.
-bool StopIIS(PROCESS_INFORMATION *pi);
-bool StartIIS(PROCESS_INFORMATION *pi);
+bool StopIIS(PROCESS_INFORMATION* pi);
+bool StartIIS(PROCESS_INFORMATION* pi);
 bool ResetIIS();
 VOID DoRestartIIS(PVOID pvoid);
 bool RefreshAllConfiguredComponents();
@@ -193,7 +194,7 @@ LRESULT CALLBACK StatusAreaProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lPar
 				hSubMenu = NULL;
 			}
 			return 0;
-			break;		
+			break;
 		case WM_CONTEXTMENU:
 		{
 			POINT pt;
@@ -372,7 +373,7 @@ LRESULT CALLBACK StatusAreaProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lPar
 	return DefWindowProc(hWnd, iMsg, wParam, lParam);
 }// LRESULT CALLBACK StatusAreaProc( HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam )
 
-void BuildCOMPlusServerApplicationsMenu(HMENU &hSubMenu)
+void BuildCOMPlusServerApplicationsMenu(HMENU& hSubMenu)
 {
 	// Get all COM+ Server applications...
 	if (!GetAllCoPlusServerApplications()) {
@@ -467,7 +468,7 @@ bool GetAllCoPlusServerApplications()
 	return true;
 }
 
-bool ShutDownApplication(wchar_t *wcsApplicationName)
+bool ShutDownApplication(wchar_t* wcsApplicationName)
 {
 	CComPtr<ICOMAdminCatalog> pAdminCatalog;
 	HRESULT hr = pAdminCatalog.CoCreateInstance(CComBSTR("COMAdmin.COMAdminCatalog.1"));//CLSID_COMAdminCatalog );
@@ -629,34 +630,29 @@ VOID DoRestartIIS(PVOID pvoid)
 	::CoUninitialize();
 }
 
-bool StopIIS(PROCESS_INFORMATION *pi)
+bool StopIIS(PROCESS_INFORMATION* pi)
 {
-	//OSVERSIONINFO osvi = {0};
-	// osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-
-	//GetVersionEx(&osvi);
-
-	//if ( osvi.dwMajorVersion >= 8 ) {
-	//	SHELLEXECUTEINFOW execInfo = {0};
-	//	execInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
-	//	execInfo.lpVerb = L"runas";
-	//	execInfo.lpFile = L"iisreset";
-	//	execInfo.lpParameters = L"/stop";
-	//	execInfo.nShow = SW_SHOWNORMAL;
-	//	return ( ::ShellExecuteExW(&execInfo) );
-	//}
-	//else {					
-	wchar_t wcsCommand[] = L"iisreset /stop";//L"net stop iisadmin /y";		
-	STARTUPINFO si = { 0 };
-	si.cb = sizeof(STARTUPINFO);
-	si.lpReserved = NULL;
-	si.lpTitle = L"Stop IIS";
-
-	BOOL b = CreateProcess(NULL, wcsCommand, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, pi);
-	if (b == FALSE) {
-		return false;
+	if (IsWindows8OrGreater()) {
+		SHELLEXECUTEINFOW execInfo = { 0 };
+		execInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
+		execInfo.lpVerb = L"runas";
+		execInfo.lpFile = L"iisreset";
+		execInfo.lpParameters = L"/stop";
+		execInfo.nShow = SW_SHOWNORMAL;
+		return (::ShellExecuteExW(&execInfo));
 	}
-	//}
+	else {
+		wchar_t wcsCommand[] = L"iisreset /stop";//L"net stop iisadmin /y";		
+		STARTUPINFO si = { 0 };
+		si.cb = sizeof(STARTUPINFO);
+		si.lpReserved = NULL;
+		si.lpTitle = L"Stop IIS";
+
+		BOOL b = CreateProcess(NULL, wcsCommand, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, pi);
+		if (b == FALSE) {
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -670,34 +666,29 @@ bool ResetIIS()
 	return (::ShellExecuteExW(&execInfo));
 }
 
-bool StartIIS(PROCESS_INFORMATION *pi)
+bool StartIIS(PROCESS_INFORMATION* pi)
 {
-	//OSVERSIONINFO osvi = {0};
-	//osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-
-	//GetVersionEx(&osvi);
-
-	//if ( osvi.dwMajorVersion >= 8 ) {
-	//	SHELLEXECUTEINFOW execInfo = {0};
-	//	execInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
-	//	execInfo.lpVerb = L"runas";
-	//	execInfo.lpFile = L"iisreset";
-	//	execInfo.lpParameters = L"/start";
-	//	execInfo.nShow = SW_SHOWNORMAL;
-	//	return ( ::ShellExecuteExW(&execInfo) );
-	//}
-	//else {			
-	wchar_t wcsCommand[] = L"iisreset /start";//L"net start w3svc";						
-	STARTUPINFO si = { 0 };
-	si.cb = sizeof(STARTUPINFO);
-	si.lpReserved = NULL;
-	si.lpTitle = L"Start IIS";
-
-	BOOL b = CreateProcess(NULL, wcsCommand, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, pi);
-	if (b == FALSE) {
-		return false;
+	if (IsWindows8OrGreater()) {
+		SHELLEXECUTEINFOW execInfo = { 0 };
+		execInfo.cbSize = sizeof(SHELLEXECUTEINFOW);
+		execInfo.lpVerb = L"runas";
+		execInfo.lpFile = L"iisreset";
+		execInfo.lpParameters = L"/start";
+		execInfo.nShow = SW_SHOWNORMAL;
+		return (::ShellExecuteExW(&execInfo));
 	}
-	//}
+	else {
+		wchar_t wcsCommand[] = L"iisreset /start";//L"net start w3svc";						
+		STARTUPINFO si = { 0 };
+		si.cb = sizeof(STARTUPINFO);
+		si.lpReserved = NULL;
+		si.lpTitle = L"Start IIS";
+
+		BOOL b = CreateProcess(NULL, wcsCommand, NULL, NULL, FALSE, NORMAL_PRIORITY_CLASS, NULL, NULL, &si, pi);
+		if (b == FALSE) {
+			return false;
+		}
+	}
 
 	return true;
 }

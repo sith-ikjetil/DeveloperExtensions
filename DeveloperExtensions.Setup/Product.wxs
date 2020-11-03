@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:pca="http://schemas.microsoft.com/wix/MsmqExtension" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:utl="http://schemas.microsoft.com/wix/UtilExtension">
-  <Product Id="*"  UpgradeCode="18e3e0a9-d2eb-468c-b9c5-8e2e970f69e1" Version="2.5.0.0" Language="1033" Name="Developer Extensions" Manufacturer="IT Software">
+  <Product Id="*"  UpgradeCode="18e3e0a9-d2eb-468c-b9c5-8e2e970f69e1" Version="2.6.0.0" Language="1033" Name="Developer Extensions" Manufacturer="IT Software">
     <Package InstallerVersion="300"  Compressed="yes" InstallScope="perMachine" Platform="x64" />
     <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of [ProductName] is already installed." AllowSameVersionUpgrades="yes"/>
 

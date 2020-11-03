@@ -2,11 +2,14 @@
 #include "stdafx.h"
 #include "CToolTip.h"
 #include "imagehlp.h"
+#include <string>
 #include "DeveloperExtensionsToolTip_i.h"
 #include "../DeveloperExtensions.ToolTip32Server/DeveloperExtensionsToolTip32Server_i.h"
 #include "../DeveloperExtensions.ToolTip64Server/DeveloperExtensionsToolTip64Server_i.h"
 
 extern HINSTANCE g_hInstance;
+
+using namespace std;
 
 // IQueryInfo
 STDMETHODIMP CToolTip::GetInfoFlags(DWORD *pdwFlags)

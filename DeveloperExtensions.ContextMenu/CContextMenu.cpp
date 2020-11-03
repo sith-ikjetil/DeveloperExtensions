@@ -14,6 +14,7 @@
 #include "STarget.h"
 #include <cor.h>
 #include <thread>
+#include <string>
 #include "../Include/itsoftware.h"
 #include "../Include/itsoftware-com.h"
 #include "../Include/itsoftware-win.h"
@@ -22,6 +23,7 @@
 //
 // using namespace
 //
+using namespace std;
 using namespace ItSoftware;
 using namespace ItSoftware::COM;
 using namespace ItSoftware::Win;

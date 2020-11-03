@@ -1,1 +1,2 @@
-"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Bin\signtool" sign /sm /sha1 948710520ce1e2811540100452ac664db886fd43 /t "http://timestamp.verisign.com/scripts/timstamp.dll" .\..\x64\Release\DeveloperExtensions.ToolTip64Server.exe
+ECHO CREATING DIGITAL SIGNATURE
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\signtool" sign /sm /sha1 9392c2d39109a30b6e2138171b70698f0d7ea4b6 /t "http://timestamp.verisign.com/scripts/timstamp.dll" .\..\x64\Release\DeveloperExtensions.ToolTip64Server.exe

@@ -6,6 +6,7 @@
 #include "shlobj.h"
 #include "shlguid.h"
 #include <vector>
+#include <string>
 #include "STarget.h"
 #include "DeveloperExtensionsContextMenu_i.h"
 
