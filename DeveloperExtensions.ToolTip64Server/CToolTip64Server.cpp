@@ -200,7 +200,7 @@ STDMETHODIMP CToolTip64Server::GetToolTip(/*[in]*/ BSTR filename, /*[out, retval
 		bstrInfo += wcsBaseAddress;
 	}
 
-	bstrInfo.Append("\n\n    Copyright (c) 2001-2017 by Kjetil Kristoffer Solberg.\n    All rights reserved.");
+	bstrInfo.Append("\n\n    Copyright (c) 2001-2020 by SOLBERG IT SOFTWARE.\n    All rights reserved.");
 
 	// set tooltip
 	/**ppwszTip = (LPWSTR)CoTaskMemAlloc((bstrInfo.Length() + 1) * sizeof(WCHAR));
